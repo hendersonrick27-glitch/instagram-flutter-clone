@@ -10,18 +10,21 @@ import 'package:instagram_clone_flutter/screens/login_screen.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 
-await Firebase.initializeApp(
-  options: const FirebaseOptions(
-    apiKey: "AIzaSyBhDsu2ZE9tNVZqNC3CrOgfNIwakDmr0hU",
-    authDomain: "koinos-backend-8b66f.firebaseapp.com",
-    projectId: "koinos-backend-8b66f",
-    storageBucket: "koinos-backend-8b66f.firebasestorage.app",
-    messagingSenderId: "367729356553",
-    appId: "1:367729356553:web:af071dba9043104040add8",
-  ),
-);
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-runApp(MyApp());
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyBhDsu2ZE9tNVZqNC3CrOgfNIwakDmr0hU",
+      authDomain: "koinos-backend-8b66f.firebaseapp.com",
+      projectId: "koinos-backend-8b66f",
+      storageBucket: "koinos-backend-8b66f.firebasestorage.app",
+      messagingSenderId: "367729356553",
+      appId: "1:367729356553:web:af071dba9043104040add8",
+    ),
+  );
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
