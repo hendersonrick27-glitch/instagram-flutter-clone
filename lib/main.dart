@@ -20,6 +20,8 @@ await Firebase.initializeApp(
     appId: "1:367729356553:web:af071dba9043104040add8",
   ),
 );
+
+runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
