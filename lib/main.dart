@@ -12,7 +12,7 @@ import 'package:instagram_clone_flutter/screens/login_screen.dart';
 
 // Define your colour palette
 const Color kBlack = Color(0xFF000000);
-const Color kForestGreen = Color(0xFF1B4D3E); // Modern forest green – adjust hex if you prefer (e.g., 0xFF228B22 for brighter)
+const Color kForestGreen = Color(0xFF1B4D3E); // Modern forest green
 const Color kDarkGrey = Color(0xFF121212); // For cards/background variations
 const Color kLightText = Color(0xFFE0E0E0); // For text on dark bg
 
