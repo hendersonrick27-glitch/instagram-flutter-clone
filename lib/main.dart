@@ -10,24 +10,16 @@ import 'package:instagram_clone_flutter/screens/login_screen.dart';
 import 'package:instagram_clone_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // initialise app based on platform- web or mobile
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyCZ-xrXqD5D19Snauto-Fx_nLD7PLrBXGM",
-        appId: "1:585119731880:web:eca6e4b3c42a755cee329d",
-        messagingSenderId: "585119731880",
-        projectId: "instagram-clone-4cea4",
-        storageBucket: 'instagram-clone-4cea4.appspot.com'
-      ),
-    );
-  } else {
-    await Firebase.initializeApp();
-  }
-  runApp(const MyApp());
+await Firebase.initializeApp(
+  options: const FirebaseOptions(
+    apiKey: "AIzaSyBhDsu2ZE9tNVZqNC3CrOgfNIwakDmr0hU",
+    authDomain: "koinos-backend-8b66f.firebaseapp.com",
+    projectId: "koinos-backend-8b66f",
+    storageBucket: "koinos-backend-8b66f.firebasestorage.app",
+    messagingSenderId: "367729356553",
+    appId: "1:367729356553:web:af071dba9043104040add8",
+  ),
+);
 }
 
 class MyApp extends StatelessWidget {
