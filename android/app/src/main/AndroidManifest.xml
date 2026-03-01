@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.koinos">
+    package="com.social.koinos">
    <application
         android:label="koinos"
         android:name="${applicationName}"
