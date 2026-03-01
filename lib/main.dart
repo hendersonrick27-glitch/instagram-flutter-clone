@@ -1,18 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:instagram_clone_flutter/providers/user_provider.dart';
 import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
 import 'package:instagram_clone_flutter/responsive/responsive_layout.dart';
 import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
 import 'package:instagram_clone_flutter/screens/login_screen.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:provider/provider.dart';
 
-Future<void> main() async {
+// Define your colour palette
+const Color kBlack = Color(0xFF000000);
+const Color kForestGreen = Color(0xFF1B4D3E); // Modern forest green – adjust hex if you prefer a different shade (e.g., 0xFF228B22 for brighter)
+const Color kDarkGrey = Color(0xFF121212); // For cards/background variations
+const Color kLightText = Color(0xFFE0E0E0); // For text on dark bg
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Firebase with your config
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyBhDsu2ZE9tNVZqNC3CrOgfNIwakDmr0hU",
@@ -24,50 +30,80 @@ Future<void> main() async {
     ),
   );
 
-  runApp(MyApp());
-}
+  runApp(const KoinosApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class KoinosApp extends StatelessWidget {
+  const KoinosApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider(),),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Instagram Clone',
+        title: 'Koinos',
         theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
+          // Black + Forest Green theme
+          scaffoldBackgroundColor: kBlack,
+          primaryColor: kForestGreen,
+          colorScheme: const ColorScheme.dark(
+            primary: kForestGreen,
+            secondary: kForestGreen,
+            surface: kDarkGrey,
+            background: kBlack,
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: kBlack,
+            elevation: 0,
+            iconTheme: IconThemeData(color: kLightText),
+            titleTextStyle: TextStyle(
+              color: kLightText,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(color: kLightText),
+            bodyMedium: TextStyle(color: kLightText),
+            titleLarge: TextStyle(color: kLightText, fontWeight: FontWeight.bold),
+          ),
+          iconTheme: const IconThemeData(color: kForestGreen),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kForestGreen,
+              foregroundColor: Colors.white,
+            ),
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: kForestGreen,
+          ),
         ),
-        home: StreamBuilder(
+        home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              // Checking if the snapshot has any data or not
               if (snapshot.hasData) {
-                // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
+                // Logged in → show main app layout
                 return const ResponsiveLayout(
-                  mobileScreenLayout: MobileScreenLayout(),
                   webScreenLayout: WebScreenLayout(),
+                  mobileScreenLayout: MobileScreenLayout(),
                 );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
-                );
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
               }
             }
 
-            // means connection to future hasnt been made yet
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator(color: kForestGreen));
             }
 
+            // Not logged in → login screen
             return const LoginScreen();
           },
         ),
